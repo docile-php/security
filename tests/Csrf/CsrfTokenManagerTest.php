@@ -8,6 +8,8 @@ use Docile\Security\Csrf\CsrfTokenManager;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+use function strlen;
+
 #[CoversClass(CsrfTokenManager::class)]
 final class CsrfTokenManagerTest extends TestCase
 {

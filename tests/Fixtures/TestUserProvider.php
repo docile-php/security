@@ -15,10 +15,17 @@ final class TestUserProvider implements UserProviderInterface
     /** @var array<string, TestUser> */
     private array $usersByEmail = [];
 
+    /** @var array<string, TestUser> */
+    private array $usersByApiKey = [];
+
     public function addUser(TestUser $user): void
     {
         $this->users[$user->getId()] = $user;
         $this->usersByEmail[$user->getAuthIdentifier()] = $user;
+
+        if ($user->getApiKey() !== null) {
+            $this->usersByApiKey[$user->getApiKey()] = $user;
+        }
     }
 
     public function findById(int|string $id): ?UserInterface
@@ -30,6 +37,11 @@ final class TestUserProvider implements UserProviderInterface
     public function findByCredentials(array $credentials): ?UserInterface
     {
         $email = $credentials['email'] ?? null;
+        $apiKey = $credentials['api_key'] ?? null;
+
+        if ($apiKey !== null) {
+            return $this->usersByApiKey[$apiKey] ?? null;
+        }
 
         if ($email === null) {
             return null;

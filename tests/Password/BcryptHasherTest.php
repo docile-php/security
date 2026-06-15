@@ -6,6 +6,7 @@ namespace Docile\Security\Tests\Password;
 
 use Docile\Security\Password\BcryptHasher;
 use Docile\Security\Password\HasherInterface;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -85,14 +86,14 @@ final class BcryptHasherTest extends TestCase
 
     public function testConstructorThrowsExceptionForCostBelowMinimum(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         new BcryptHasher(3);
     }
 
     public function testConstructorThrowsExceptionForCostAboveMaximum(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         new BcryptHasher(32);
     }

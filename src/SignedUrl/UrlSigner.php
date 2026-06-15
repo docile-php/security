@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Docile\Security\SignedUrl;
 
+use function is_int;
+use function is_string;
+
 final class UrlSigner
 {
     /** Sign a URL with a signature and expiration. */

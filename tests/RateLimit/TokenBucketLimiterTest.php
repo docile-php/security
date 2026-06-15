@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Docile\Security\Tests\RateLimit;
 
+use DateTimeImmutable;
 use Docile\Security\RateLimit\RateLimiterInterface;
 use Docile\Security\RateLimit\TokenBucketLimiter;
 use Docile\Security\Tests\Fixtures\ArrayCache;
@@ -170,9 +171,9 @@ final class TestClock implements ClockInterface
 {
     private int $time = 1000;
 
-    public function now(): \DateTimeImmutable
+    public function now(): DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromFormat('U', (string) $this->time) ?: new \DateTimeImmutable();
+        return DateTimeImmutable::createFromFormat('U', (string) $this->time) ?: new DateTimeImmutable();
     }
 
     public function advance(int $seconds): void

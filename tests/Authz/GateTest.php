@@ -27,14 +27,14 @@ final class GateTest extends TestCase
 
     public function testAllowsReturnsTrueWhenAbilityReturnsTrue(): void
     {
-        $this->gate->define('edit-post', fn () => true);
+        $this->gate->define('edit-post', fn() => true);
 
         $this->assertTrue($this->gate->allows('edit-post'));
     }
 
     public function testAllowsReturnsFalseWhenAbilityReturnsFalse(): void
     {
-        $this->gate->define('edit-post', fn () => false);
+        $this->gate->define('edit-post', fn() => false);
 
         $this->assertFalse($this->gate->allows('edit-post'));
     }
@@ -65,21 +65,21 @@ final class GateTest extends TestCase
 
     public function testDeniesReturnsOppositeOfAllows(): void
     {
-        $this->gate->define('edit-post', fn () => true);
+        $this->gate->define('edit-post', fn() => true);
 
         $this->assertFalse($this->gate->denies('edit-post'));
     }
 
     public function testDeniesReturnsTrueWhenAllowsReturnsFalse(): void
     {
-        $this->gate->define('edit-post', fn () => false);
+        $this->gate->define('edit-post', fn() => false);
 
         $this->assertTrue($this->gate->denies('edit-post'));
     }
 
     public function testAllowsReturnsFalseWhenUserIsNotUserInterface(): void
     {
-        $this->gate->define('edit-post', fn () => true);
+        $this->gate->define('edit-post', fn() => true);
 
         $this->assertFalse($this->gate->allows('edit-post', 'not-a-user'));
     }
@@ -129,8 +129,8 @@ final class GateTest extends TestCase
 
     public function testMultipleAbilitiesCanBeDefined(): void
     {
-        $this->gate->define('ability1', fn () => true);
-        $this->gate->define('ability2', fn () => false);
+        $this->gate->define('ability1', fn() => true);
+        $this->gate->define('ability2', fn() => false);
 
         $this->assertTrue($this->gate->allows('ability1'));
         $this->assertFalse($this->gate->allows('ability2'));
@@ -138,8 +138,8 @@ final class GateTest extends TestCase
 
     public function testAbilityCanBeOverridden(): void
     {
-        $this->gate->define('ability', fn () => false);
-        $this->gate->define('ability', fn () => true);
+        $this->gate->define('ability', fn() => false);
+        $this->gate->define('ability', fn() => true);
 
         $this->assertTrue($this->gate->allows('ability'));
     }

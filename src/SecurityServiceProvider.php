@@ -4,26 +4,30 @@ declare(strict_types=1);
 
 namespace Docile\Security;
 
-use Docile\Foundation\AbstractServiceProvider;
+use DateInterval;
 use Docile\Container\ContainerInterface;
+use Docile\Foundation\AbstractServiceProvider;
 use Docile\Security\Auth\Token\JwtCodec;
 use Docile\Security\Auth\Token\TokenGuard;
 use Docile\Security\Authz\Gate;
 use Docile\Security\Authz\GateInterface;
 use Docile\Security\Csrf\CsrfMiddleware;
 use Docile\Security\Csrf\CsrfTokenManager;
-use Docile\Security\Password\BcryptHasher;
 use Docile\Security\Password\HasherInterface;
 use Docile\Security\Password\SodiumHasher;
-use Docile\Security\RateLimit\RateLimitMiddleware;
 use Docile\Security\RateLimit\RateLimiterInterface;
+use Docile\Security\RateLimit\RateLimitMiddleware;
 use Docile\Security\RateLimit\TokenBucketLimiter;
 use Docile\Support\Clock\SystemClock;
+use Override;
 use Psr\SimpleCache\CacheInterface;
+use RuntimeException;
+
+use function is_string;
 
 final class SecurityServiceProvider extends AbstractServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(ContainerInterface $container): void
     {
         $container->singleton(HasherInterface::class, SodiumHasher::class);
@@ -36,7 +40,7 @@ final class SecurityServiceProvider extends AbstractServiceProvider
             $codec = $container->make(JwtCodec::class);
 
             if (!$codec instanceof JwtCodec) {
-                throw new \RuntimeException('Expected JwtCodec instance.');
+                throw new RuntimeException('Expected JwtCodec instance.');
             }
 
             return new TokenGuard($codec);
@@ -48,7 +52,7 @@ final class SecurityServiceProvider extends AbstractServiceProvider
             $manager = $container->make(CsrfTokenManager::class);
 
             if (!$manager instanceof CsrfTokenManager) {
-                throw new \RuntimeException('Expected CsrfTokenManager instance.');
+                throw new RuntimeException('Expected CsrfTokenManager instance.');
             }
 
             return new CsrfMiddleware($manager);
@@ -60,7 +64,7 @@ final class SecurityServiceProvider extends AbstractServiceProvider
                 : $this->createArrayCache();
 
             if (!$cache instanceof CacheInterface) {
-                throw new \RuntimeException('Expected CacheInterface instance.');
+                throw new RuntimeException('Expected CacheInterface instance.');
             }
 
             return new TokenBucketLimiter($cache, new SystemClock());
@@ -70,7 +74,7 @@ final class SecurityServiceProvider extends AbstractServiceProvider
             $limiter = $container->make(RateLimiterInterface::class);
 
             if (!$limiter instanceof RateLimiterInterface) {
-                throw new \RuntimeException('Expected RateLimiterInterface instance.');
+                throw new RuntimeException('Expected RateLimiterInterface instance.');
             }
 
             return new RateLimitMiddleware($limiter);
@@ -88,7 +92,7 @@ final class SecurityServiceProvider extends AbstractServiceProvider
                 return $this->storage[$key] ?? $default;
             }
 
-            public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool
+            public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
             {
                 $this->storage[$key] = $value;
 
@@ -120,7 +124,7 @@ final class SecurityServiceProvider extends AbstractServiceProvider
                 return $result;
             }
 
-            public function setMultiple(iterable $values, null|int|\DateInterval $ttl = null): bool // @phpstan-ignore-line
+            public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool // @phpstan-ignore-line
             {
                 foreach ($values as $key => $value) {
                     if (is_string($key)) {
