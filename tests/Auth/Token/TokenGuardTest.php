@@ -7,6 +7,7 @@ namespace Docile\Security\Tests\Auth\Token;
 use Docile\Security\Auth\Token\JwtCodec;
 use Docile\Security\Auth\Token\TokenGuard;
 use Docile\Security\Exception\InvalidTokenException;
+use Docile\Security\Tests\Fixtures\TestClock;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +22,8 @@ final class TokenGuardTest extends TestCase
     {
         parent::setUp();
 
-        $this->codec = new JwtCodec();
+        $clock = new TestClock();
+        $this->codec = new JwtCodec($clock);
         $this->guard = new TokenGuard($this->codec);
         $this->secret = 'test-secret-key';
     }

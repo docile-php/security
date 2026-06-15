@@ -21,9 +21,9 @@ final class SessionGuard
     /** Attempt to authenticate a user with credentials. */
     /** @param array<string, string> $credentials */
     /** @param array<string, mixed> $session */
-    public function attempt(array $credentials, array &$session): bool // @phpstan-ignore-line
+    public function attempt(array $credentials, array &$session): bool // @phpstan-ignore-line (by-ref session parameter for mutation)
     {
-        $user = $this->provider->findByCredentials($credentials); // @phpstan-ignore-line
+        $user = $this->provider->findByCredentials($credentials); // @phpstan-ignore-line (array shape validation)
 
         if ($user === null) {
             return false;

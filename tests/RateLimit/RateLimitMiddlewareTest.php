@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Docile\Security\Tests\RateLimit;
 
 use Docile\Security\Exception\TooManyRequestsException;
-use Docile\Security\RateLimit\RateLimitMiddleware;
 use Docile\Security\RateLimit\RateLimiterInterface;
+use Docile\Security\RateLimit\RateLimitMiddleware;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;

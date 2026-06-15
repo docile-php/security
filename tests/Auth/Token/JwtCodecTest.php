@@ -6,6 +6,7 @@ namespace Docile\Security\Tests\Auth\Token;
 
 use Docile\Security\Auth\Token\JwtCodec;
 use Docile\Security\Exception\InvalidTokenException;
+use Docile\Security\Tests\Fixtures\TestClock;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -14,12 +15,14 @@ final class JwtCodecTest extends TestCase
 {
     private JwtCodec $codec;
     private string $secret;
+    private TestClock $clock;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->codec = new JwtCodec();
+        $this->clock = new TestClock();
+        $this->codec = new JwtCodec($this->clock);
         $this->secret = 'test-secret-key';
     }
 
@@ -111,12 +114,13 @@ final class JwtCodecTest extends TestCase
 
     public function testEncodeWithCustomTtl(): void
     {
+        $this->clock->setCurrentTime(1000);
         $claims = ['sub' => '123'];
         $token = $this->codec->encode($claims, $this->secret, 7200);
 
         $decoded = $this->codec->decode($token, $this->secret);
 
-        $this->assertGreaterThan(time() + 3600, $decoded['exp']);
+        $this->assertGreaterThan(4600, $decoded['exp']);
     }
 
     public function testEncodePreservesOriginalClaims(): void

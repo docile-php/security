@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Docile\Security\Tests\Fixtures;
 
+use DateInterval;
 use Psr\SimpleCache\CacheInterface;
 
 final class ArrayCache implements CacheInterface
@@ -16,7 +17,7 @@ final class ArrayCache implements CacheInterface
         return $this->storage[$key] ?? $default;
     }
 
-    public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool
+    public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
     {
         $this->storage[$key] = $value;
 
@@ -48,7 +49,7 @@ final class ArrayCache implements CacheInterface
         return $result;
     }
 
-    public function setMultiple(iterable $values, null|int|\DateInterval $ttl = null): bool
+    public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
     {
         foreach ($values as $key => $value) {
             $this->storage[$key] = $value;
