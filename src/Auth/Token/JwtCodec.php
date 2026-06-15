@@ -6,6 +6,10 @@ namespace Docile\Security\Auth\Token;
 
 use Docile\Security\Exception\InvalidTokenException;
 
+use function count;
+use function is_array;
+use function is_int;
+
 final class JwtCodec
 {
     private const string ALGORITHM = 'HS256';

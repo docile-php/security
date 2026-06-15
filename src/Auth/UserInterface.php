@@ -14,4 +14,7 @@ interface UserInterface
 
     /** Get the user's password hash. */
     public function getPasswordHash(): string;
+
+    /** Get the user's API key (optional). */
+    public function getApiKey(): ?string;
 }
