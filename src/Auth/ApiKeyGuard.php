@@ -34,7 +34,7 @@ final class ApiKeyGuard
     /** Authenticate a user by API key directly. */
     public function authenticateByKey(string $apiKey): UserInterface
     {
-        $user = $this->provider->findByCredentials(['api_key' => $apiKey]);
+        $user = $this->provider->findByApiKey($apiKey);
 
         if ($user === null) {
             throw new AuthenticationException('Invalid API key.');
